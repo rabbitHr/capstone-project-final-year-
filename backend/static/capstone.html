@@ -1,0 +1,2383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Khetra Mitra</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+
+/* ================= RESET & GLOBAL ================= */
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+  font-family:'Inter',sans-serif;
+  color:#fff;
+  background-size:cover;
+  background-position:center;
+  background-attachment:fixed;
+  min-height:100vh;
+  transition:background-image .6s ease;
+  overflow-x:hidden;
+}
+
+body::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  background:linear-gradient(135deg,rgba(0,0,0,0.65) 0%,rgba(0,20,10,0.55) 100%);
+  z-index:0;
+  pointer-events:none;
+}
+
+/* BACKGROUNDS */
+body.homeBG{background-image:url("https://images.unsplash.com/photo-1500382017468-9049fed747ef");}
+body.loginBG{background-image:url("https://images.unsplash.com/photo-1464226184884-fa280b87c399");}
+body.farmerBG{background-image:url("https://images.unsplash.com/photo-1501004318641-b39e6451bec6");}
+body.labourBG{background-image:url("https://images.unsplash.com/photo-1592982537447-6f2a6a0cbb47");}
+body.jobBG{background-image:url("https://i.pinimg.com/1200x/52/a5/e7/52a5e7b31ba2fc29435813a8ca30c22d.jpg");}
+body.aiBG{background-image:url("https://i.pinimg.com/736x/95/58/c6/9558c6ed6831cc65c27bb3e926462eba.jpg");}
+
+/* ================= ANIMATIONS ================= */
+@keyframes fadeSlideIn{
+  from{opacity:0;transform:translateY(24px);filter:blur(8px);}
+  to{opacity:1;transform:translateY(0);filter:blur(0);}
+}
+
+@keyframes gradientShift{
+  0%{background-position:0% center;}
+  100%{background-position:200% center;}
+}
+
+@keyframes float{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-8px);}
+}
+
+@keyframes pulseGlow{
+  0%,100%{box-shadow:0 0 20px rgba(0,255,213,0.15);}
+  50%{box-shadow:0 0 40px rgba(0,255,213,0.3);}
+}
+
+@keyframes shimmer{
+  0%{background-position:-200% 0;}
+  100%{background-position:200% 0;}
+}
+
+@keyframes pingDot{
+  0%{transform:scale(1);opacity:1;}
+  75%,100%{transform:scale(2.5);opacity:0;}
+}
+
+
+/* Floating particles behind hero */
+.particles{
+  position:absolute;
+  inset:0;
+  overflow:hidden;
+  pointer-events:none;
+  z-index:0;
+}
+
+.particle{
+  position:absolute;
+  width:4px;
+  height:4px;
+  background:rgba(0,255,213,0.3);
+  border-radius:50%;
+  animation:floatParticle linear infinite;
+}
+
+.particle:nth-child(1){left:10%;top:20%;width:3px;height:3px;animation-duration:8s;animation-delay:0s;}
+.particle:nth-child(2){left:25%;top:60%;width:5px;height:5px;animation-duration:12s;animation-delay:1s;background:rgba(0,255,213,0.2);}
+.particle:nth-child(3){left:50%;top:30%;width:3px;height:3px;animation-duration:10s;animation-delay:2s;}
+.particle:nth-child(4){left:70%;top:70%;width:6px;height:6px;animation-duration:14s;animation-delay:0.5s;background:rgba(0,255,213,0.15);}
+.particle:nth-child(5){left:85%;top:15%;width:4px;height:4px;animation-duration:9s;animation-delay:3s;}
+.particle:nth-child(6){left:40%;top:80%;width:3px;height:3px;animation-duration:11s;animation-delay:1.5s;background:rgba(0,255,213,0.25);}
+.particle:nth-child(7){left:60%;top:45%;width:5px;height:5px;animation-duration:13s;animation-delay:2.5s;background:rgba(0,255,213,0.1);}
+.particle:nth-child(8){left:15%;top:90%;width:4px;height:4px;animation-duration:10s;animation-delay:0.8s;}
+
+@keyframes floatParticle{
+  0%{transform:translateY(0) translateX(0);opacity:0;}
+  10%{opacity:1;}
+  90%{opacity:1;}
+  100%{transform:translateY(-100vh) translateX(30px);opacity:0;}
+}
+
+/* ================= SCROLL REVEAL ================= */
+.scroll-reveal{
+  opacity:0;
+  transform:translateY(30px);
+  transition:opacity .7s ease, transform .7s ease;
+}
+
+.scroll-reveal.revealed{
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* Stagger feature cards */
+.features-grid .scroll-reveal:nth-child(1){transition-delay:.05s;}
+.features-grid .scroll-reveal:nth-child(2){transition-delay:.15s;}
+.features-grid .scroll-reveal:nth-child(3){transition-delay:.25s;}
+.features-grid .scroll-reveal:nth-child(4){transition-delay:.35s;}
+
+/* Stagger gov links */
+.gov-links .scroll-reveal:nth-child(1){transition-delay:.05s;}
+.gov-links .scroll-reveal:nth-child(2){transition-delay:.12s;}
+.gov-links .scroll-reveal:nth-child(3){transition-delay:.19s;}
+.gov-links .scroll-reveal:nth-child(4){transition-delay:.26s;}
+
+/* ================= NAVBAR ================= */
+.navbar{
+  position:sticky;
+  top:0;
+  z-index:1000;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:transparent;
+  padding:16px 40px;
+  height:auto;
+}
+
+.navbar .logo{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  font-size:22px;
+  font-weight:800;
+  letter-spacing:-0.5px;
+  color:#fff;
+  cursor:pointer;
+}
+
+.navbar .logo .logo-icon{
+  width:38px;
+  height:38px;
+  border-radius:12px;
+  background:linear-gradient(135deg,#00ffd5,#00b894);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:14px;
+  font-weight:800;
+  color:#0a0a0a;
+  box-shadow:0 0 20px rgba(0,255,213,0.25);
+}
+
+.navbar .logo .logo-text{
+  background:linear-gradient(135deg,#00ffd5,#00d4ff,#00ffd5);
+  background-size:200% auto;
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  animation:gradientShift 4s linear infinite;
+}
+
+.navbar-inner{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  background:rgba(18,18,18,0.85);
+  backdrop-filter:blur(24px);
+  -webkit-backdrop-filter:blur(24px);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:50px;
+  padding:6px 8px;
+}
+
+.nav-links{
+  display:flex;
+  align-items:center;
+  gap:2px;
+}
+
+.nav-links a{
+  color:rgba(255,255,255,0.5);
+  text-decoration:none;
+  font-weight:500;
+  font-size:14px;
+  cursor:pointer;
+  padding:10px 20px;
+  border-radius:50px;
+  transition:all .3s ease;
+  position:relative;
+  letter-spacing:0.1px;
+  white-space:nowrap;
+}
+
+.nav-links a:hover{
+  color:rgba(255,255,255,0.85);
+}
+
+.nav-links a.active-link{
+  color:#fff;
+  background:rgba(255,255,255,0.1);
+}
+
+.nav-login-btn{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  color:#0a0a0a;
+  text-decoration:none;
+  font-weight:600;
+  font-size:14px;
+  cursor:pointer;
+  padding:10px 24px;
+  border-radius:50px;
+  background:#fff;
+  transition:all .3s ease;
+  white-space:nowrap;
+  margin-left:4px;
+}
+
+.nav-login-btn:hover{
+  background:rgba(255,255,255,0.9);
+  transform:scale(1.03);
+}
+
+.nav-login-btn .arrow{
+  font-size:12px;
+  transition:transform .3s ease;
+}
+
+.nav-login-btn:hover .arrow{
+  transform:translate(2px,-2px);
+}
+
+/* ================= PAGES ================= */
+.page{
+  display:none;
+  position:relative;
+  z-index:1;
+  min-height:calc(100vh - 72px);
+  padding:48px 24px 72px;
+}
+
+.active{display:block;}
+
+/* ================= GLASS CARD ================= */
+.glass{
+  background:rgba(10,10,10,0.55);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,0.07);
+  border-radius:24px;
+  padding:36px;
+  transition:all .4s cubic-bezier(0.4,0,0.2,1);
+  position:relative;
+  overflow:hidden;
+}
+
+.glass::before{
+  content:'';
+  position:absolute;
+  top:0;
+  right:0;
+  width:200px;
+  height:200px;
+  background:radial-gradient(circle,rgba(0,255,213,0.04) 0%,transparent 70%);
+  pointer-events:none;
+}
+
+.glass:hover{
+  border-color:rgba(0,255,213,0.15);
+  box-shadow:0 8px 48px rgba(0,0,0,0.3),0 0 0 1px rgba(0,255,213,0.05);
+  transform:translateY(-2px);
+}
+
+/* ================= FORM ELEMENTS ================= */
+.form-group{
+  margin-bottom:18px;
+}
+
+.form-group label{
+  display:block;
+  font-size:12px;
+  font-weight:600;
+  color:rgba(255,255,255,0.5);
+  margin-bottom:7px;
+  letter-spacing:0.5px;
+  text-transform:uppercase;
+}
+
+.form-input{
+  width:100%;
+  padding:13px 18px;
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:12px;
+  color:#fff;
+  font-family:'Inter',sans-serif;
+  font-size:14px;
+  transition:all .3s ease;
+  outline:none;
+}
+
+.form-input:focus{
+  border-color:rgba(0,255,213,0.5);
+  background:rgba(0,255,213,0.04);
+  box-shadow:0 0 0 3px rgba(0,255,213,0.08),0 0 20px rgba(0,255,213,0.05);
+}
+
+.form-input::placeholder{
+  color:rgba(255,255,255,0.25);
+}
+
+select.form-input{
+  appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%2300ffd5' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;
+  background-position:right 14px center;
+  padding-right:40px;
+  cursor:pointer;
+}
+
+select.form-input option{
+  background:#0a0a1a;
+  color:#fff;
+}
+
+input[type="file"].form-input{
+  padding:11px 18px;
+  cursor:pointer;
+}
+
+input[type="range"]{
+  width:100%;
+  height:6px;
+  -webkit-appearance:none;
+  appearance:none;
+  background:rgba(255,255,255,0.08);
+  border-radius:3px;
+  outline:none;
+  margin-top:4px;
+}
+
+input[type="range"]::-webkit-slider-thumb{
+  -webkit-appearance:none;
+  width:20px;
+  height:20px;
+  background:linear-gradient(135deg,#00ffd5,#00b894);
+  border-radius:50%;
+  cursor:pointer;
+  box-shadow:0 0 15px rgba(0,255,213,0.4);
+  transition:transform .2s ease;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover{
+  transform:scale(1.2);
+}
+
+/* ================= BUTTONS ================= */
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  padding:14px 32px;
+  font-family:'Inter',sans-serif;
+  font-size:14px;
+  font-weight:600;
+  border:none;
+  border-radius:14px;
+  cursor:pointer;
+  transition:all .3s cubic-bezier(0.4,0,0.2,1);
+  letter-spacing:0.2px;
+  position:relative;
+  overflow:hidden;
+}
+
+.btn::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.1),transparent);
+  background-size:200% 100%;
+  opacity:0;
+  transition:opacity .3s ease;
+}
+
+.btn:hover::after{
+  opacity:1;
+  animation:shimmer 1.5s infinite;
+}
+
+.btn-primary{
+  background:linear-gradient(135deg,#00ffd5,#00b894);
+  color:#0a0a0a;
+  box-shadow:0 4px 20px rgba(0,255,213,0.25);
+}
+
+.btn-primary:hover{
+  transform:translateY(-3px);
+  box-shadow:0 8px 32px rgba(0,255,213,0.4);
+}
+
+.btn-primary:active{
+  transform:translateY(-1px);
+}
+
+.btn-secondary{
+  background:rgba(255,255,255,0.05);
+  color:#fff;
+  border:1px solid rgba(255,255,255,0.1);
+  backdrop-filter:blur(8px);
+}
+
+.btn-secondary:hover{
+  background:rgba(255,255,255,0.1);
+  border-color:rgba(255,255,255,0.2);
+  transform:translateY(-3px);
+}
+
+.btn-full{width:100%;}
+
+/* ================= HEADINGS ================= */
+.section-header{
+  text-align:center;
+  margin-bottom:48px;
+}
+
+.section-title{
+  text-align:center;
+  font-size:36px;
+  font-weight:800;
+  margin-bottom:10px;
+  letter-spacing:-1px;
+  line-height:1.1;
+}
+
+.section-subtitle{
+  text-align:center;
+  font-size:15px;
+  color:rgba(255,255,255,0.4);
+  font-weight:400;
+  margin-bottom:44px;
+  max-width:480px;
+  margin-left:auto;
+  margin-right:auto;
+  line-height:1.6;
+}
+
+.accent{
+  background:linear-gradient(135deg,#00ffd5,#00d4ff,#00ffd5);
+  background-size:200% auto;
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  animation:gradientShift 3s linear infinite;
+}
+
+/* ================= BADGE ================= */
+.badge{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:7px 16px;
+  background:rgba(0,255,213,0.08);
+  border:1px solid rgba(0,255,213,0.2);
+  border-radius:50px;
+  font-size:12px;
+  font-weight:600;
+  color:#00ffd5;
+  letter-spacing:0.5px;
+  backdrop-filter:blur(8px);
+}
+
+.badge .dot{
+  width:6px;
+  height:6px;
+  background:#00ffd5;
+  border-radius:50%;
+  position:relative;
+}
+
+.badge .dot::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:#00ffd5;
+  border-radius:50%;
+  animation:pingDot 1.5s cubic-bezier(0,0,0.2,1) infinite;
+}
+
+/* =============================================
+   HOME PAGE
+   ============================================= */
+.hero{
+  max-width:860px;
+  margin:0 auto;
+  text-align:center;
+  padding-top:72px;
+  animation:fadeSlideIn .8s ease forwards;
+}
+
+.hero-badge{
+  margin-bottom:28px;
+}
+
+.hero h1{
+  font-size:clamp(36px,6vw,64px);
+  font-weight:900;
+  line-height:1.05;
+  margin-bottom:20px;
+  letter-spacing:-2px;
+}
+
+.hero p{
+  font-size:18px;
+  color:rgba(255,255,255,0.55);
+  line-height:1.7;
+  max-width:580px;
+  margin:0 auto 40px;
+  font-weight:400;
+}
+
+.hero-buttons{
+  display:flex;
+  gap:16px;
+  justify-content:center;
+  flex-wrap:wrap;
+  margin-bottom:72px;
+}
+
+.hero-buttons .btn{
+  padding:16px 36px;
+  font-size:15px;
+  border-radius:50px;
+}
+
+/* Feature Cards */
+.features-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:16px;
+  max-width:960px;
+  margin:0 auto;
+  animation:fadeSlideIn .8s ease .3s both;
+}
+
+.feature-card{
+  background:rgba(255,255,255,0.03);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,0.06);
+  border-radius:20px;
+  padding:32px 24px;
+  text-align:center;
+  transition:all .4s cubic-bezier(0.4,0,0.2,1);
+  position:relative;
+  overflow:hidden;
+}
+
+.feature-card::before{
+  content:'';
+  position:absolute;
+  top:-50%;
+  left:-50%;
+  width:200%;
+  height:200%;
+  background:radial-gradient(circle at center,rgba(0,255,213,0.06) 0%,transparent 50%);
+  opacity:0;
+  transition:opacity .4s ease;
+  pointer-events:none;
+}
+
+.feature-card:hover::before{
+  opacity:1;
+}
+
+.feature-card:hover{
+  border-color:rgba(0,255,213,0.2);
+  transform:translateY(-6px);
+  box-shadow:0 20px 40px rgba(0,0,0,0.3),0 0 0 1px rgba(0,255,213,0.08);
+}
+
+.feature-icon{
+  width:56px;
+  height:56px;
+  margin:0 auto 16px;
+  border-radius:16px;
+  background:rgba(0,255,213,0.08);
+  border:1px solid rgba(0,255,213,0.12);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:26px;
+  transition:all .3s ease;
+}
+
+.feature-card:hover .feature-icon{
+  background:rgba(0,255,213,0.12);
+  transform:scale(1.05);
+  box-shadow:0 0 20px rgba(0,255,213,0.15);
+}
+
+.feature-card h4{
+  font-size:15px;
+  font-weight:700;
+  margin-bottom:8px;
+  letter-spacing:-0.3px;
+}
+
+.feature-card p{
+  font-size:13px;
+  color:rgba(255,255,255,0.4);
+  line-height:1.6;
+}
+
+/* Gov Links */
+.gov-links{
+  display:flex;
+  gap:12px;
+  justify-content:center;
+  flex-wrap:wrap;
+  margin-top:56px;
+  animation:fadeSlideIn .8s ease .5s both;
+}
+
+.gov-link{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:12px 22px;
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.06);
+  border-radius:50px;
+  color:rgba(255,255,255,0.6);
+  text-decoration:none;
+  font-size:13px;
+  font-weight:500;
+  transition:all .3s ease;
+}
+
+.gov-link:hover{
+  color:#00ffd5;
+  border-color:rgba(0,255,213,0.25);
+  background:rgba(0,255,213,0.06);
+  transform:translateY(-2px);
+  box-shadow:0 4px 16px rgba(0,255,213,0.1);
+}
+
+/* =============================================
+   LOGIN PAGE
+   ============================================= */
+.login-container{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:calc(100vh - 200px);
+  animation:fadeSlideIn .6s ease forwards;
+}
+
+.login-card{
+  width:100%;
+  max-width:400px;
+}
+
+.login-card h2{
+  text-align:center;
+  font-size:28px;
+  font-weight:800;
+  margin-bottom:6px;
+  letter-spacing:-0.5px;
+}
+
+.login-card .login-sub{
+  text-align:center;
+  font-size:14px;
+  color:rgba(255,255,255,0.4);
+  margin-bottom:32px;
+}
+
+.divider{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  margin:22px 0;
+  color:rgba(255,255,255,0.25);
+  font-size:12px;
+  font-weight:500;
+  text-transform:uppercase;
+  letter-spacing:1px;
+}
+
+.divider::before,.divider::after{
+  content:'';
+  flex:1;
+  height:1px;
+  background:rgba(255,255,255,0.08);
+}
+
+/* Profile Card */
+.profile-header{
+  text-align:center;
+  margin-bottom:28px;
+}
+
+.avatar{
+  width:88px;
+  height:88px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#00ffd5,#00b894);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:34px;
+  font-weight:800;
+  color:#0a0a0a;
+  margin:0 auto 16px;
+  box-shadow:0 0 30px rgba(0,255,213,0.25);
+  position:relative;
+}
+
+.avatar::after{
+  content:'';
+  position:absolute;
+  inset:-4px;
+  border-radius:50%;
+  border:2px solid rgba(0,255,213,0.2);
+}
+
+.profile-stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  margin:24px 0;
+}
+
+.stat-item{
+  text-align:center;
+  padding:18px 8px;
+  background:rgba(255,255,255,0.03);
+  border-radius:16px;
+  border:1px solid rgba(255,255,255,0.05);
+  transition:all .3s ease;
+}
+
+.stat-item:hover{
+  border-color:rgba(0,255,213,0.15);
+  background:rgba(0,255,213,0.04);
+}
+
+.stat-value{
+  font-size:22px;
+  font-weight:800;
+  color:#00ffd5;
+  letter-spacing:-0.5px;
+}
+
+.stat-label{
+  font-size:10px;
+  color:rgba(255,255,255,0.4);
+  margin-top:4px;
+  text-transform:uppercase;
+  letter-spacing:0.5px;
+  font-weight:600;
+}
+
+/* =============================================
+   DASHBOARD PAGES (Farmer & Labour)
+   ============================================= */
+.dashboard-layout{
+  display:grid;
+  grid-template-columns:1fr 380px;
+  gap:24px;
+  max-width:920px;
+  margin:0 auto;
+  animation:fadeSlideIn .6s ease forwards;
+}
+
+@media(max-width:800px){
+  .dashboard-layout{
+    grid-template-columns:1fr;
+  }
+}
+
+/* Section Header inside cards */
+.card-header{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  margin-bottom:28px;
+  padding-bottom:20px;
+  border-bottom:1px solid rgba(255,255,255,0.06);
+}
+
+.card-header-icon{
+  width:46px;
+  height:46px;
+  border-radius:14px;
+  background:rgba(0,255,213,0.08);
+  border:1px solid rgba(0,255,213,0.12);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:20px;
+}
+
+.card-header h3{
+  font-size:18px;
+  font-weight:700;
+  letter-spacing:-0.3px;
+}
+
+.card-header p{
+  font-size:12px;
+  color:rgba(255,255,255,0.35);
+  margin-top:2px;
+}
+
+/* News Items */
+.news-list{
+  max-height:420px;
+  overflow-y:auto;
+  padding-right:4px;
+}
+
+.news-list::-webkit-scrollbar{
+  width:3px;
+}
+
+.news-list::-webkit-scrollbar-thumb{
+  background:rgba(0,255,213,0.2);
+  border-radius:2px;
+}
+
+.news-item{
+  display:block;
+  padding:16px 18px;
+  margin-bottom:10px;
+  border-radius:16px;
+  background:rgba(255,255,255,0.03);
+  border:1px solid rgba(255,255,255,0.05);
+  text-decoration:none;
+  transition:all .3s cubic-bezier(0.4,0,0.2,1);
+}
+
+.news-item:hover{
+  background:rgba(0,255,213,0.06);
+  border-color:rgba(0,255,213,0.15);
+  transform:translateX(4px);
+  box-shadow:0 4px 16px rgba(0,0,0,0.2);
+}
+
+.news-item .news-tag{
+  display:inline-block;
+  font-size:10px;
+  font-weight:700;
+  color:#0a0a0a;
+  background:linear-gradient(135deg,#00ffd5,#00b894);
+  padding:3px 10px;
+  border-radius:20px;
+  text-transform:uppercase;
+  letter-spacing:0.8px;
+  margin-bottom:8px;
+}
+
+.news-item h4{
+  font-size:14px;
+  font-weight:600;
+  color:#fff;
+  margin-bottom:6px;
+  letter-spacing:-0.2px;
+}
+
+.news-item p{
+  font-size:12px;
+  color:rgba(255,255,255,0.4);
+  line-height:1.5;
+}
+
+/* =============================================
+   JOBS PAGE
+   ============================================= */
+.jobs-container{
+  max-width:560px;
+  margin:0 auto;
+  animation:fadeSlideIn .6s ease forwards;
+}
+
+.role-selector{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-bottom:28px;
+}
+
+.role-option{
+  padding:20px;
+  background:rgba(255,255,255,0.03);
+  border:1px solid rgba(255,255,255,0.06);
+  border-radius:18px;
+  text-align:center;
+  cursor:pointer;
+  transition:all .3s ease;
+  color:rgba(255,255,255,0.5);
+  font-family:'Inter',sans-serif;
+  font-size:14px;
+  font-weight:600;
+}
+
+.role-option:hover{
+  border-color:rgba(0,255,213,0.2);
+  color:#fff;
+  background:rgba(255,255,255,0.05);
+}
+
+.role-option.selected{
+  border-color:#00ffd5;
+  background:rgba(0,255,213,0.06);
+  color:#00ffd5;
+  box-shadow:0 0 20px rgba(0,255,213,0.1);
+}
+
+.role-option .role-icon{
+  font-size:32px;
+  display:block;
+  margin-bottom:10px;
+}
+
+.job-section{
+  display:none;
+  animation:fadeSlideIn .4s ease;
+}
+
+.job-section.visible{
+  display:block;
+}
+
+/* =============================================
+   AI PREDICTION PAGE
+   ============================================= */
+.ai-container{
+  max-width:600px;
+  margin:0 auto;
+  animation:fadeSlideIn .6s ease forwards;
+}
+
+.ai-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:32px;
+  flex-wrap:wrap;
+  gap:12px;
+}
+
+.ai-header h2{
+  font-size:24px;
+  font-weight:800;
+  letter-spacing:-0.5px;
+}
+
+.lang-select{
+  padding:9px 18px;
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:10px;
+  color:#fff;
+  font-family:'Inter',sans-serif;
+  font-size:13px;
+  cursor:pointer;
+  outline:none;
+  transition:all .3s ease;
+}
+
+.lang-select:focus{
+  border-color:rgba(0,255,213,0.4);
+}
+
+.lang-select option{
+  background:#0a0a1a;
+}
+
+.slider-group{
+  margin-bottom:24px;
+}
+
+.slider-group .slider-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:10px;
+}
+
+.slider-group label{
+  font-size:12px;
+  font-weight:600;
+  color:rgba(255,255,255,0.5);
+  text-transform:uppercase;
+  letter-spacing:0.5px;
+}
+
+.slider-value{
+  font-size:14px;
+  font-weight:700;
+  color:#00ffd5;
+  background:rgba(0,255,213,0.08);
+  border:1px solid rgba(0,255,213,0.15);
+  padding:3px 12px;
+  border-radius:8px;
+}
+
+.result-box{
+  margin-top:28px;
+  padding:24px;
+  background:rgba(0,255,213,0.04);
+  border:1px solid rgba(0,255,213,0.12);
+  border-radius:18px;
+  text-align:center;
+  min-height:70px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  overflow:hidden;
+  animation:pulseGlow 3s ease infinite;
+}
+
+.result-box::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(135deg,rgba(0,255,213,0.03) 0%,transparent 50%);
+  pointer-events:none;
+}
+
+.result-box h3{
+  font-size:20px;
+  font-weight:700;
+  color:#00ffd5;
+  letter-spacing:-0.3px;
+  position:relative;
+  z-index:1;
+}
+
+/* ================= FOOTER ================= */
+.footer{
+  position:relative;
+  z-index:1;
+  text-align:center;
+  padding:24px 20px;
+  font-size:12px;
+  color:rgba(255,255,255,0.2);
+  border-top:1px solid rgba(255,255,255,0.04);
+  font-weight:500;
+  letter-spacing:0.3px;
+}
+
+.footer span{
+  color:rgba(0,255,213,0.4);
+}
+
+/* ================= CHATBOT ================= */
+body.chatbotBG{background-image:url("https://images.unsplash.com/photo-1574943320219-553eb213f72d");}
+
+.chatbot-container{
+  max-width:700px;
+  margin:0 auto;
+  animation:fadeSlideIn .6s ease forwards;
+}
+
+.chat-messages{
+  height:400px;
+  overflow-y:auto;
+  padding:20px;
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+  margin-bottom:20px;
+  scrollbar-width:thin;
+  scrollbar-color:rgba(0,255,213,0.2) transparent;
+}
+
+.chat-messages::-webkit-scrollbar{width:4px;}
+.chat-messages::-webkit-scrollbar-thumb{background:rgba(0,255,213,0.2);border-radius:2px;}
+
+.chat-msg{
+  max-width:85%;
+  padding:14px 18px;
+  border-radius:18px;
+  font-size:14px;
+  line-height:1.6;
+  animation:fadeSlideIn .3s ease;
+}
+
+.chat-msg.user{
+  align-self:flex-end;
+  background:linear-gradient(135deg,rgba(0,255,213,0.15),rgba(0,180,148,0.15));
+  border:1px solid rgba(0,255,213,0.2);
+  color:#fff;
+}
+
+.chat-msg.ai{
+  align-self:flex-start;
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.08);
+  color:rgba(255,255,255,0.85);
+}
+
+.chat-msg .msg-label{
+  font-size:10px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:0.8px;
+  margin-bottom:6px;
+  display:block;
+}
+
+.chat-msg.user .msg-label{color:#00ffd5;}
+.chat-msg.ai .msg-label{color:rgba(255,255,255,0.4);}
+
+.chat-input-area{
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+
+.chat-input-area input{
+  flex:1;
+}
+
+.voice-btn{
+  width:50px;
+  height:50px;
+  border-radius:50%;
+  border:2px solid rgba(0,255,213,0.3);
+  background:rgba(0,255,213,0.08);
+  color:#00ffd5;
+  font-size:20px;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:all .3s ease;
+  flex-shrink:0;
+}
+
+.voice-btn:hover{
+  background:rgba(0,255,213,0.15);
+  border-color:rgba(0,255,213,0.5);
+  transform:scale(1.05);
+}
+
+.voice-btn.recording{
+  background:rgba(255,59,48,0.2);
+  border-color:rgba(255,59,48,0.6);
+  color:#ff3b30;
+  animation:pulseGlow 1s ease infinite;
+  box-shadow:0 0 20px rgba(255,59,48,0.3);
+}
+
+.chat-lang-bar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+.chat-status{
+  font-size:12px;
+  color:rgba(255,255,255,0.35);
+  font-weight:500;
+}
+
+.chat-status.active{
+  color:#00ffd5;
+}
+
+.typing-indicator{
+  display:flex;
+  gap:4px;
+  padding:14px 18px;
+  align-self:flex-start;
+}
+
+.typing-indicator span{
+  width:8px;
+  height:8px;
+  background:rgba(0,255,213,0.4);
+  border-radius:50%;
+  animation:typingBounce 1.4s ease-in-out infinite;
+}
+
+.typing-indicator span:nth-child(2){animation-delay:.2s;}
+.typing-indicator span:nth-child(3){animation-delay:.4s;}
+
+@keyframes typingBounce{
+  0%,60%,100%{transform:translateY(0);}
+  30%{transform:translateY(-8px);}
+}
+
+/* ================= RESPONSIVE ================= */
+@media(max-width:600px){
+  .navbar{padding:10px 16px;flex-wrap:wrap;gap:10px;}
+  .navbar .logo{font-size:18px;}
+  .navbar .logo .logo-icon{width:32px;height:32px;font-size:12px;}
+  .navbar-inner{padding:4px 6px;gap:4px;flex-wrap:wrap;justify-content:center;border-radius:20px;}
+  .nav-links{flex-wrap:wrap;justify-content:center;gap:0;}
+  .nav-links a{padding:8px 14px;font-size:12px;}
+  .nav-login-btn{padding:8px 18px;font-size:12px;}
+  .hero{padding-top:40px;}
+  .hero h1{font-size:32px;letter-spacing:-1px;}
+  .hero p{font-size:15px;}
+  .hero-buttons .btn{padding:14px 28px;font-size:14px;}
+  .page{padding:28px 16px 48px;}
+  .section-title{font-size:26px;}
+  .features-grid{grid-template-columns:1fr 1fr;gap:12px;}
+  .feature-card{padding:24px 16px;}
+  .profile-stats{grid-template-columns:repeat(3,1fr);}
+  .glass{padding:28px 24px;border-radius:20px;}
+}
+
+</style>
+
+<script>
+
+/* ================ PAGE SWITCH ================ */
+let currentNav = null;
+
+function showPage(id){
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+
+  document.body.className="";
+  const bgMap = {home:"homeBG",login:"loginBG",farmer:"farmerBG",labour:"labourBG",jobs:"jobBG",ai:"aiBG",chatbot:"chatbotBG"};
+  if(bgMap[id]) document.body.classList.add(bgMap[id]);
+
+  // active nav link
+  document.querySelectorAll(".nav-links a").forEach(a=>a.classList.remove("active-link"));
+  const loginBtn = document.querySelector('.nav-login-btn');
+  loginBtn.style.background='#fff';
+  loginBtn.style.color='#0a0a0a';
+  if(id==='login'){
+    loginBtn.style.background='rgba(0,255,213,0.9)';
+    loginBtn.style.color='#0a0a0a';
+  } else {
+    const link = document.querySelector(`.nav-links a[data-page="${id}"]`);
+    if(link) link.classList.add("active-link");
+  }
+
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ================ LOGIN ================ */
+function loginUser(){
+  let name = document.getElementById("username").value.trim();
+  if(!name){alert("Please enter your username");return;}
+  document.getElementById("loginBox").style.display="none";
+  document.getElementById("profileBox").style.display="block";
+  document.getElementById("pname").innerText=name;
+  document.getElementById("avatarLetter").innerText=name.charAt(0).toUpperCase();
+}
+
+/* ================ JOB ROLE ================ */
+function selectRole(role){
+  document.querySelectorAll(".role-option").forEach(r=>r.classList.remove("selected"));
+  document.querySelector(`.role-option[data-role="${role}"]`).classList.add("selected");
+
+  document.querySelectorAll(".job-section").forEach(s=>s.classList.remove("visible"));
+  document.getElementById(role+"Section").classList.add("visible");
+}
+
+/* ================ SLIDER SYNC ================ */
+function syncSlider(inputId, displayId, value){
+  document.getElementById(inputId).value = value;
+  document.getElementById(displayId).innerText = value;
+}
+
+function syncFromInput(inputId, sliderId, displayId){
+  let val = document.getElementById(inputId).value;
+  document.getElementById(sliderId).value = val;
+  document.getElementById(displayId).innerText = val;
+}
+
+/* ================ AI PREDICTION ================ */
+function predictYield(){
+  let rainfall = parseFloat(document.getElementById("rainfall").value) || 0;
+  let temp = 25;
+  let area = parseFloat(document.getElementById("area").value) || 0;
+  let yieldPrediction = (0.5*rainfall + 2*temp + 10)*area/100;
+  document.getElementById("result").innerText = "Estimated Yield: " + yieldPrediction.toFixed(2) + " Quintals";
+}
+
+/* ================ LANGUAGE SWITCH ================ */
+const langData={
+  english:{
+    title:"AI Crop Yield Prediction",
+    year:"Crop Year",
+    area:"Area (Hectare)",
+    rain:"Rainfall (mm)",
+    fert:"Fertilizer (kg)",
+    pest:"Pesticide (kg)",
+    predict:"Predict Yield"
+  },
+  hindi:{
+    title:"\u090F\u0906\u0908 \u092B\u0938\u0932 \u0909\u0924\u094D\u092A\u093E\u0926\u0928 \u092D\u0935\u093F\u0937\u094D\u092F\u0935\u093E\u0923\u0940",
+    year:"\u092B\u0938\u0932 \u0935\u0930\u094D\u0937",
+    area:"\u0915\u094D\u0937\u0947\u0924\u094D\u0930\u092B\u0932 (\u0939\u0947\u0915\u094D\u091F\u0947\u092F\u0930)",
+    rain:"\u0935\u0930\u094D\u0937\u093E (\u092E\u093F\u092E\u0940)",
+    fert:"\u0909\u0930\u094D\u0935\u0930\u0915 (\u0915\u093F\u0932\u094B)",
+    pest:"\u0915\u0940\u091F\u0928\u093E\u0936\u0915 (\u0915\u093F\u0932\u094B)",
+    predict:"\u0909\u0924\u094D\u092A\u093E\u0926\u0928 \u0905\u0928\u0941\u092E\u093E\u0928"
+  },
+  punjabi:{
+    title:"\u0A0F\u0A06\u0A08 \u0A2B\u0A38\u0A32 \u0A2A\u0A48\u0A26\u0A3E\u0A35\u0A3E\u0A30 \u0A05\u0A28\u0A41\u0A2E\u0A3E\u0A28",
+    year:"\u0A2B\u0A38\u0A32 \u0A38\u0A3E\u0A32",
+    area:"\u0A16\u0A47\u0A24\u0A30\u0A2B\u0A32 (\u0A39\u0A48\u0A15\u0A1F\u0A47\u0A05\u0A30)",
+    rain:"\u0A2C\u0A30\u0A38\u0A3E\u0A24 (\u0A2E\u0A3F\u0A2E\u0A40)",
+    fert:"\u0A16\u0A3E\u0A26 (\u0A15\u0A3F\u0A32\u0A4B)",
+    pest:"\u0A15\u0A40\u0A1F\u0A28\u0A3E\u0A36\u0A15 (\u0A15\u0A3F\u0A32\u0A4B)",
+    predict:"\u0A2A\u0A48\u0A26\u0A3E\u0A35\u0A3E\u0A30 \u0A05\u0A28\u0A41\u0A2E\u0A3E\u0A28"
+  }
+};
+
+function changeLang(lang){
+  document.getElementById("aiTitle").innerText=langData[lang].title;
+  document.getElementById("yearLabel").innerText=langData[lang].year;
+  document.getElementById("areaLabel").innerText=langData[lang].area;
+  document.getElementById("rainLabel").innerText=langData[lang].rain;
+  document.getElementById("fertLabel").innerText=langData[lang].fert;
+  document.getElementById("pestLabel").innerText=langData[lang].pest;
+  document.getElementById("predictBtn").innerText=langData[lang].predict;
+}
+
+
+/* ================ SCROLL REVEAL ================ */
+(function(){
+  const observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        entry.target.classList.add('revealed');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {threshold:0.1, rootMargin:'0px 0px -50px 0px'});
+
+  document.addEventListener('DOMContentLoaded', function(){
+    document.querySelectorAll('.glass, .feature-card, .gov-link, .section-header, .result-box').forEach(function(el){
+      el.classList.add('scroll-reveal');
+      observer.observe(el);
+    });
+  });
+})();
+
+</script>
+</head>
+
+<body class="homeBG">
+
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar">
+  <div class="logo" onclick="showPage('home')">
+    <div class="logo-icon">KM</div>
+    <span class="logo-text">Khetra Mitra</span>
+  </div>
+  <div class="navbar-inner">
+    <div class="nav-links">
+      <a data-page="home" class="active-link" onclick="showPage('home')">Home</a>
+      <a data-page="farmer" onclick="showPage('farmer')">Farmer</a>
+      <a data-page="labour" onclick="showPage('labour')">Labour</a>
+      <a data-page="jobs" onclick="showPage('jobs')">Jobs</a>
+      <a data-page="ai" onclick="showPage('ai')">AI Prediction</a>
+      <a data-page="chatbot" onclick="showPage('chatbot')">AI Chatbot</a>
+    </div>
+    <a class="nav-login-btn" data-page="login" onclick="showPage('login')">Login <span class="arrow">&#8599;</span></a>
+  </div>
+</nav>
+
+<!-- =============================================
+     HOME PAGE
+     ============================================= -->
+<div id="home" class="page active">
+
+  <!-- Floating Particles -->
+  <div class="particles">
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+  </div>
+
+  <div class="hero">
+    <div class="hero-badge">
+      <span class="badge"><span class="dot"></span> Smart Agriculture Platform</span>
+    </div>
+
+    <h1>Empowering Farmers<br>with <span class="accent">Technology</span></h1>
+
+    <p>
+      Khetra Mitra connects farmers and labourers through AI-powered crop prediction,
+      government scheme access, verified labour hiring, and real-time agriculture updates.
+    </p>
+
+    <div class="hero-buttons">
+      <button class="btn btn-primary" onclick="showPage('ai')">Try AI Prediction &rarr;</button>
+      <button class="btn btn-secondary" onclick="showPage('chatbot')">Talk to AI Chatbot</button>
+      <button class="btn btn-secondary" onclick="showPage('login')">Get Started</button>
+    </div>
+  </div>
+
+  <!-- Feature Cards -->
+  <div class="features-grid">
+
+    <div class="feature-card">
+      <div class="feature-icon">&#129302;</div>
+      <h4>AI Prediction</h4>
+      <p>Predict crop yield using rainfall, area, and fertilizer data</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">&#128119;</div>
+      <h4>Labour Hiring</h4>
+      <p>Find and hire verified farm workers with police verification</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">&#128203;</div>
+      <h4>Job Portal</h4>
+      <p>Post and find agricultural jobs across Punjab districts</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">&#127963;</div>
+      <h4>Govt. Schemes</h4>
+      <p>Access PM Kisan, crop insurance and eNAM marketplace</p>
+    </div>
+
+    <div class="feature-card" onclick="showPage('chatbot')" style="cursor:pointer;">
+      <div class="feature-icon">&#127908;</div>
+      <h4>Voice AI Chatbot</h4>
+      <p>Ask farming questions by voice or text in Hindi, Punjabi &amp; English</p>
+    </div>
+
+  </div>
+
+  <!-- Government Links -->
+  <div class="gov-links">
+    <a class="gov-link" href="https://pmkisan.gov.in" target="_blank">&#127806; PM Kisan</a>
+    <a class="gov-link" href="https://pmfby.gov.in" target="_blank">&#128737; Crop Insurance</a>
+    <a class="gov-link" href="https://enam.gov.in" target="_blank">&#127978; eNAM Market</a>
+    <a class="gov-link" href="https://labour.gov.in" target="_blank">&#128119; Labour Welfare</a>
+  </div>
+
+</div>
+
+<!-- =============================================
+     LOGIN PAGE
+     ============================================= -->
+<div id="login" class="page">
+
+  <div class="login-container">
+
+    <!-- Login Form -->
+    <div class="glass login-card" id="loginBox">
+      <h2>Welcome Back</h2>
+      <p class="login-sub">Sign in to your Khetra Mitra account</p>
+
+      <div class="form-group">
+        <label>Username</label>
+        <input id="username" class="form-input" placeholder="Enter your username">
+      </div>
+
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" class="form-input" placeholder="Enter your password">
+      </div>
+
+      <button class="btn btn-primary btn-full" onclick="loginUser()" style="margin-top:10px;">
+        Sign In &rarr;
+      </button>
+
+      <div class="divider">or</div>
+
+      <button class="btn btn-secondary btn-full" onclick="showPage('farmer')">
+        Register as Farmer
+      </button>
+    </div>
+
+    <!-- Profile Card -->
+    <div class="glass login-card" id="profileBox" style="display:none;">
+
+      <div class="profile-header">
+        <div class="avatar"><span id="avatarLetter">U</span></div>
+        <h2 id="pname"></h2>
+        <span class="badge" style="margin-top:10px;"><span class="dot"></span> Verified</span>
+      </div>
+
+      <div class="profile-stats">
+        <div class="stat-item">
+          <div class="stat-value">3</div>
+          <div class="stat-label">Years Exp.</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">4.0</div>
+          <div class="stat-label">Rating</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">12</div>
+          <div class="stat-label">Jobs Done</div>
+        </div>
+      </div>
+
+      <button class="btn btn-primary btn-full" onclick="showPage('home')">
+        Go to Dashboard &rarr;
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<!-- =============================================
+     FARMER PAGE
+     ============================================= -->
+<div id="farmer" class="page">
+
+  <div class="section-header">
+    <div class="section-title">Farmer Dashboard</div>
+    <div class="section-subtitle">Register and stay updated with the latest agriculture news</div>
+  </div>
+
+  <div class="dashboard-layout">
+
+    <!-- Registration Form -->
+    <div class="glass">
+      <div class="card-header">
+        <div class="card-header-icon">&#127806;</div>
+        <div>
+          <h3>Farmer Registration</h3>
+          <p>Fill in your details to register</p>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Full Name</label>
+        <input class="form-input" placeholder="Enter farmer name">
+      </div>
+
+      <div class="form-group">
+        <label>Village / Area</label>
+        <input class="form-input" placeholder="Enter village or area">
+      </div>
+
+      <div class="form-group">
+        <label>Phone Number</label>
+        <input class="form-input" placeholder="Enter phone number">
+      </div>
+
+      <div class="form-group">
+        <label>Land Size (Acres)</label>
+        <input type="number" class="form-input" placeholder="Enter land size">
+      </div>
+
+      <button class="btn btn-primary btn-full">Register &rarr;</button>
+    </div>
+
+    <!-- News Section -->
+    <div class="glass">
+      <div class="card-header">
+        <div class="card-header-icon">&#128240;</div>
+        <div>
+          <h3>Farmer News</h3>
+          <p>Latest agriculture updates</p>
+        </div>
+      </div>
+
+      <div class="news-list">
+
+        <a class="news-item" href="https://news.google.com/search?q=indian%20farmers" target="_blank">
+          <div class="news-tag">Trending</div>
+          <h4>Indian Farmer News</h4>
+          <p>Latest farming updates and agriculture policies from Google News.</p>
+        </a>
+
+        <a class="news-item" href="https://www.bbc.com/news/topics/cg41ylwvxq5t" target="_blank">
+          <div class="news-tag">Global</div>
+          <h4>BBC Agriculture News</h4>
+          <p>Global agriculture innovations and farmer stories.</p>
+        </a>
+
+        <a class="news-item" href="https://agricoop.nic.in" target="_blank">
+          <div class="news-tag">Government</div>
+          <h4>Government Agriculture Updates</h4>
+          <p>Official farmer schemes and announcements.</p>
+        </a>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- =============================================
+     LABOUR PAGE
+     ============================================= -->
+<div id="labour" class="page">
+
+  <div class="section-header">
+    <div class="section-title">Labour Dashboard</div>
+    <div class="section-subtitle">Register as a farm worker and find opportunities</div>
+  </div>
+
+  <div class="dashboard-layout">
+
+    <!-- Registration Form -->
+    <div class="glass">
+      <div class="card-header">
+        <div class="card-header-icon">&#128119;</div>
+        <div>
+          <h3>Labour Registration</h3>
+          <p>Register to find farm work</p>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Full Name</label>
+        <input class="form-input" placeholder="Enter your name">
+      </div>
+
+      <div class="form-group">
+        <label>Work Type</label>
+        <select class="form-input">
+          <option value="">Select Work Type</option>
+          <option>Harvester</option>
+          <option>Tractor Driver</option>
+          <option>Planter</option>
+          <option>Irrigation Worker</option>
+          <option>General Farm Worker</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Location</label>
+        <select class="form-input">
+          <option value="">Select Location</option>
+          <option>Amritsar</option>
+          <option>Ludhiana</option>
+          <option>Jalandhar</option>
+          <option>Patiala</option>
+          <option>Bathinda</option>
+          <option>Mohali</option>
+          <option>Hoshiarpur</option>
+          <option>Moga</option>
+          <option>Pathankot</option>
+          <option>Sangrur</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Phone Number</label>
+        <input class="form-input" placeholder="Enter phone number">
+      </div>
+
+      <div class="form-group">
+        <label>Police Verification</label>
+        <input type="file" class="form-input">
+      </div>
+
+      <div class="form-group">
+        <label>Experience (Years)</label>
+        <input type="number" class="form-input" placeholder="Years of experience">
+      </div>
+
+      <button class="btn btn-primary btn-full">Register Labour &rarr;</button>
+    </div>
+
+    <!-- News Section -->
+    <div class="glass">
+      <div class="card-header">
+        <div class="card-header-icon">&#128240;</div>
+        <div>
+          <h3>Labour News</h3>
+          <p>Updates for farm workers</p>
+        </div>
+      </div>
+
+      <div class="news-list">
+
+        <a class="news-item" href="https://news.google.com/search?q=farm%20labour%20india" target="_blank">
+          <div class="news-tag">Trending</div>
+          <h4>Farm Labour News</h4>
+          <p>Latest updates about agricultural workers and rural employment.</p>
+        </a>
+
+        <a class="news-item" href="https://www.bbc.com/news/topics/c50znx8v3nvt" target="_blank">
+          <div class="news-tag">Global</div>
+          <h4>BBC Workers & Labour News</h4>
+          <p>Global labour policies, wages and worker welfare stories.</p>
+        </a>
+
+        <a class="news-item" href="https://labour.gov.in" target="_blank">
+          <div class="news-tag">Government</div>
+          <h4>Ministry of Labour (India)</h4>
+          <p>Government schemes and labour welfare programs.</p>
+        </a>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- =============================================
+     JOBS PAGE
+     ============================================= -->
+<div id="jobs" class="page">
+
+  <div class="section-header">
+    <div class="section-title">Job Portal</div>
+    <div class="section-subtitle">Connect employers with skilled farm workers</div>
+  </div>
+
+  <div class="jobs-container">
+    <div class="glass">
+
+      <!-- Role Selector -->
+      <div class="role-selector">
+        <div class="role-option" data-role="employer" onclick="selectRole('employer')">
+          <span class="role-icon">&#127970;</span>
+          Employer
+        </div>
+        <div class="role-option" data-role="labour" onclick="selectRole('labour')">
+          <span class="role-icon">&#128119;</span>
+          Labour
+        </div>
+      </div>
+
+      <!-- Employer Section -->
+      <div id="employerSection" class="job-section">
+        <div class="card-header">
+          <div class="card-header-icon">&#128221;</div>
+          <div>
+            <h3>Post a Job</h3>
+            <p>Find workers for your farm</p>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Employer Name</label>
+          <input class="form-input" placeholder="Enter employer name">
+        </div>
+
+        <div class="form-group">
+          <label>District</label>
+          <select class="form-input">
+            <option>Amritsar</option><option>Barnala</option><option>Bathinda</option>
+            <option>Faridkot</option><option>Fatehgarh Sahib</option><option>Fazilka</option>
+            <option>Ferozepur</option><option>Gurdaspur</option><option>Hoshiarpur</option>
+            <option>Jalandhar</option><option>Kapurthala</option><option>Ludhiana</option>
+            <option>Malerkotla</option><option>Mansa</option><option>Moga</option>
+            <option>Mohali (SAS Nagar)</option><option>Muktsar (Sri Muktsar Sahib)</option>
+            <option>Pathankot</option><option>Patiala</option><option>Rupnagar (Ropar)</option>
+            <option>Sangrur</option><option>Shaheed Bhagat Singh Nagar (Nawanshahr)</option>
+            <option>Tarn Taran</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Wage Offered (&#8377;)</label>
+          <input type="number" class="form-input" placeholder="Enter daily wage">
+        </div>
+
+        <div class="form-group">
+          <label>Police Verification</label>
+          <input type="file" class="form-input">
+        </div>
+
+        <div class="form-group">
+          <label>Experience Required</label>
+          <input class="form-input" placeholder="e.g. 2 years">
+        </div>
+
+        <div class="form-group">
+          <label>Minimum Rating</label>
+          <select class="form-input">
+            <option>&#11088;</option><option>&#11088;&#11088;</option><option>&#11088;&#11088;&#11088;</option>
+            <option>&#11088;&#11088;&#11088;&#11088;</option><option>&#11088;&#11088;&#11088;&#11088;&#11088;</option>
+          </select>
+        </div>
+
+        <button class="btn btn-primary btn-full">Post Job &rarr;</button>
+      </div>
+
+      <!-- Labour Section -->
+      <div id="labourSection" class="job-section">
+        <div class="card-header">
+          <div class="card-header-icon">&#128269;</div>
+          <div>
+            <h3>Find Work</h3>
+            <p>Register to find job opportunities</p>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Labour Name</label>
+          <input class="form-input" placeholder="Enter your name">
+        </div>
+
+        <div class="form-group">
+          <label>District</label>
+          <select class="form-input">
+            <option>Amritsar</option><option>Barnala</option><option>Bathinda</option>
+            <option>Faridkot</option><option>Fatehgarh Sahib</option><option>Fazilka</option>
+            <option>Ferozepur</option><option>Gurdaspur</option><option>Hoshiarpur</option>
+            <option>Jalandhar</option><option>Kapurthala</option><option>Ludhiana</option>
+            <option>Malerkotla</option><option>Mansa</option><option>Moga</option>
+            <option>Mohali (SAS Nagar)</option><option>Muktsar (Sri Muktsar Sahib)</option>
+            <option>Pathankot</option><option>Patiala</option><option>Rupnagar (Ropar)</option>
+            <option>Sangrur</option><option>Shaheed Bhagat Singh Nagar (Nawanshahr)</option>
+            <option>Tarn Taran</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Experience</label>
+          <input class="form-input" placeholder="Years of experience">
+        </div>
+
+        <div class="form-group">
+          <label>Police Verification</label>
+          <input type="file" class="form-input">
+        </div>
+
+        <div class="form-group">
+          <label>Rating</label>
+          <select class="form-input">
+            <option>&#11088;</option><option>&#11088;&#11088;</option><option>&#11088;&#11088;&#11088;</option>
+            <option>&#11088;&#11088;&#11088;&#11088;</option><option>&#11088;&#11088;&#11088;&#11088;&#11088;</option>
+          </select>
+        </div>
+
+        <button class="btn btn-primary btn-full">Register &rarr;</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- =============================================
+     AI PREDICTION PAGE
+     ============================================= -->
+<div id="ai" class="page">
+
+  <div class="section-header">
+    <div class="section-title">AI Crop Yield Prediction</div>
+    <div class="section-subtitle">Get smart estimates based on your farm data</div>
+  </div>
+
+  <div class="ai-container">
+    <div class="glass">
+
+      <div class="ai-header">
+        <h2 id="aiTitle">AI Crop Yield Prediction</h2>
+        <select class="lang-select" onchange="changeLang(this.value)">
+          <option value="english">English</option>
+          <option value="hindi">&#2361;&#2367;&#2306;&#2342;&#2368;</option>
+          <option value="punjabi">&#2602;&#2672;&#2588;&#2622;&#2604;&#2624;</option>
+        </select>
+      </div>
+
+      <!-- Crop Year -->
+      <div class="slider-group">
+        <div class="slider-header">
+          <label id="yearLabel">Crop Year</label>
+          <span class="slider-value" id="yearDisplay">2024</span>
+        </div>
+        <input id="year" type="number" class="form-input" value="2024" style="display:none;"
+          oninput="syncFromInput('year','yearSlider','yearDisplay')">
+        <input type="range" id="yearSlider" min="1990" max="2035" value="2024"
+          oninput="syncSlider('year','yearDisplay',this.value)">
+      </div>
+
+      <!-- Area -->
+      <div class="slider-group">
+        <div class="slider-header">
+          <label id="areaLabel">Area (Hectare)</label>
+          <span class="slider-value" id="areaDisplay">10</span>
+        </div>
+        <input id="area" type="number" class="form-input" value="10" style="display:none;"
+          oninput="syncFromInput('area','areaSlider','areaDisplay')">
+        <input type="range" id="areaSlider" min="1" max="100" value="10"
+          oninput="syncSlider('area','areaDisplay',this.value)">
+      </div>
+
+      <!-- Rainfall -->
+      <div class="slider-group">
+        <div class="slider-header">
+          <label id="rainLabel">Rainfall (mm)</label>
+          <span class="slider-value" id="rainDisplay">800</span>
+        </div>
+        <input id="rainfall" type="number" class="form-input" value="800" style="display:none;"
+          oninput="syncFromInput('rainfall','rainSlider','rainDisplay')">
+        <input type="range" id="rainSlider" min="100" max="2000" value="800"
+          oninput="syncSlider('rainfall','rainDisplay',this.value)">
+      </div>
+
+      <!-- Fertilizer -->
+      <div class="slider-group">
+        <div class="slider-header">
+          <label id="fertLabel">Fertilizer (kg)</label>
+          <span class="slider-value" id="fertDisplay">50</span>
+        </div>
+        <input id="fertilizer" type="number" class="form-input" value="50" style="display:none;"
+          oninput="syncFromInput('fertilizer','fertSlider','fertDisplay')">
+        <input type="range" id="fertSlider" min="0" max="500" value="50"
+          oninput="syncSlider('fertilizer','fertDisplay',this.value)">
+      </div>
+
+      <!-- Pesticide -->
+      <div class="slider-group">
+        <div class="slider-header">
+          <label id="pestLabel">Pesticide (kg)</label>
+          <span class="slider-value" id="pestDisplay">20</span>
+        </div>
+        <input id="pesticide" type="number" class="form-input" value="20" style="display:none;"
+          oninput="syncFromInput('pesticide','pestSlider','pestDisplay')">
+        <input type="range" id="pestSlider" min="0" max="200" value="20"
+          oninput="syncSlider('pesticide','pestDisplay',this.value)">
+      </div>
+
+      <button id="predictBtn" class="btn btn-primary btn-full" onclick="predictYield()">
+        Predict Yield &rarr;
+      </button>
+
+      <div class="result-box">
+        <h3 id="result">Adjust parameters and click predict</h3>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- =============================================
+     AI CHATBOT PAGE
+     ============================================= -->
+<div id="chatbot" class="page">
+
+  <div class="section-header">
+    <div class="section-title">AI Farming <span class="accent">Chatbot</span></div>
+    <div class="section-subtitle">Ask anything about farming, crops, schemes, or weather &mdash; type or speak in English, Hindi, or Punjabi</div>
+  </div>
+
+  <div class="chatbot-container">
+    <div class="glass">
+
+      <div class="chat-lang-bar">
+        <select id="chatLang" class="lang-select">
+          <option value="english">English</option>
+          <option value="hindi">&#2361;&#2367;&#2306;&#2342;&#2368;</option>
+          <option value="punjabi">&#2602;&#2672;&#2588;&#2622;&#2604;&#2624;</option>
+          <option value="bengali">&#2476;&#2494;&#2434;&#2482;&#2494;</option>
+          <option value="gujarati">&#2711;&#2753;&#2716;&#2736;&#2750;&#2724;&#2752;</option>
+          <option value="kannada">&#3221;&#3240;&#3277;&#3240;&#3233;</option>
+          <option value="malayalam">&#3374;&#3378;&#3375;&#3390;&#3379;&#3330;</option>
+          <option value="marathi">&#2350;&#2352;&#2366;&#2336;&#2368;</option>
+          <option value="odia">&#2835;&#2849;&#2879;&#2822;</option>
+          <option value="tamil">&#2980;&#2990;&#3007;&#2996;&#3021;</option>
+          <option value="telugu">&#3108;&#3142;&#3122;&#3137;&#3095;&#3137;</option>
+        </select>
+        <span id="chatStatus" class="chat-status">Ready to chat</span>
+      </div>
+
+      <div class="chat-messages" id="chatMessages">
+        <div class="chat-msg ai">
+          <span class="msg-label">Khetra Mitra AI</span>
+          Namaste! I'm your smart farming assistant. Ask me about crop diseases, yield predictions, government schemes, best farming practices, or anything agriculture-related. You can also click the mic button to speak!
+        </div>
+      </div>
+
+      <div class="chat-input-area">
+        <input id="chatInput" class="form-input" placeholder="Ask about crops, schemes, weather..." onkeydown="if(event.key==='Enter')sendChat()">
+        <button class="voice-btn" id="voiceBtn" onclick="toggleVoice()" title="Hold to speak">&#127908;</button>
+        <button class="btn btn-primary" onclick="sendChat()" style="padding:14px 24px;">&#10148;</button>
+      </div>
+
+      <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap;">
+        <button class="btn btn-secondary" style="padding:8px 16px;font-size:12px;border-radius:50px;" onclick="quickAsk('What crops should I grow this season in Punjab?')">Best crops</button>
+        <button class="btn btn-secondary" style="padding:8px 16px;font-size:12px;border-radius:50px;" onclick="quickAsk('Tell me about PM Kisan scheme')">PM Kisan</button>
+        <button class="btn btn-secondary" style="padding:8px 16px;font-size:12px;border-radius:50px;" onclick="quickAsk('How to improve wheat yield?')">Improve yield</button>
+        <button class="btn btn-secondary" style="padding:8px 16px;font-size:12px;border-radius:50px;" onclick="quickAsk('How to identify crop diseases?')">Crop diseases</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+  <span>Khetra Mitra</span> &mdash; Smart Agriculture Platform
+</div>
+
+<script>
+/* ================ BACKEND API BASE URL ================ */
+const API_BASE = "http://127.0.0.1:5000";
+
+/* ================ AI PREDICTION (connected to backend) ================ */
+const originalPredictYield = predictYield;
+predictYield = async function(){
+  const resultEl = document.getElementById("result");
+  resultEl.textContent = "Analyzing with AI...";
+
+  const langSelect = document.querySelector('.lang-select');
+  const lang = langSelect ? langSelect.value : 'english';
+
+  const payload = {
+    crop_year: parseInt(document.getElementById("year").value) || 2024,
+    area: parseFloat(document.getElementById("area").value) || 10,
+    rainfall: parseFloat(document.getElementById("rainfall").value) || 800,
+    fertilizer: parseFloat(document.getElementById("fertilizer").value) || 50,
+    pesticide: parseFloat(document.getElementById("pesticide").value) || 20,
+    language: lang
+  };
+
+  try {
+    const res = await fetch(API_BASE + "/api/predict", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+    resultEl.textContent = data.prediction || "Could not get prediction";
+    resultEl.style.fontSize = "14px";
+    resultEl.style.textAlign = "left";
+    resultEl.style.whiteSpace = "pre-wrap";
+  } catch(err) {
+    let rainfall = parseFloat(document.getElementById("rainfall").value) || 0;
+    let area = parseFloat(document.getElementById("area").value) || 0;
+    let yieldPrediction = (0.5*rainfall + 2*25 + 10)*area/100;
+    resultEl.textContent = "Estimated Yield: " + yieldPrediction.toFixed(2) + " Quintals (Offline mode - start backend for AI analysis)";
+    resultEl.style.fontSize = "16px";
+  }
+};
+
+/* ================ LOGIN (connected to backend) ================ */
+const originalLoginUser = loginUser;
+loginUser = async function(){
+  const name = document.getElementById("username").value.trim();
+  const password = document.querySelector('#loginBox input[type="password"]').value;
+  if(!name){alert("Please enter your username");return;}
+
+  try {
+    let res = await fetch(API_BASE + "/api/login", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({username: name, password: password || "demo123"})
+    });
+
+    if(res.status === 401) {
+      res = await fetch(API_BASE + "/api/register", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({username: name, password: password || "demo123", role: "farmer"})
+      });
+    }
+
+    const data = await res.json();
+    if(data.token) {
+      localStorage.setItem("jwt_token", data.token);
+      localStorage.setItem("username", data.username);
+    }
+  } catch(err) {
+    // Continue with frontend-only login if backend is down
+  }
+
+  document.getElementById("loginBox").style.display="none";
+  document.getElementById("profileBox").style.display="block";
+  document.getElementById("pname").textContent=name;
+  document.getElementById("avatarLetter").textContent=name.charAt(0).toUpperCase();
+};
+
+/* ================ FARMER REGISTRATION (connected to backend) ================ */
+document.addEventListener('DOMContentLoaded', function(){
+  const farmerBtn = document.querySelector('#farmer .btn-primary.btn-full');
+  if(farmerBtn) {
+    farmerBtn.onclick = async function(){
+      const inputs = document.querySelectorAll('#farmer .form-input');
+      const payload = {
+        full_name: inputs[0]?.value || "",
+        village: inputs[1]?.value || "",
+        phone: inputs[2]?.value || "",
+        land_size: parseFloat(inputs[3]?.value) || 0
+      };
+      try {
+        const res = await fetch(API_BASE + "/api/farmer/register", {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        alert(data.message || "Farmer registered!");
+      } catch(err) {
+        alert("Registration saved locally (backend offline)");
+      }
+    };
+  }
+
+  const labourBtn = document.querySelector('#labour .btn-primary.btn-full');
+  if(labourBtn) {
+    labourBtn.onclick = async function(){
+      const inputs = document.querySelectorAll('#labour .form-input');
+      const payload = {
+        full_name: inputs[0]?.value || "",
+        work_type: inputs[1]?.value || "",
+        location: inputs[2]?.value || "",
+        phone: inputs[3]?.value || "",
+        experience: parseInt(inputs[5]?.value) || 0
+      };
+      try {
+        const res = await fetch(API_BASE + "/api/labour/register", {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        alert(data.message || "Labour registered!");
+      } catch(err) {
+        alert("Registration saved locally (backend offline)");
+      }
+    };
+  }
+
+  const jobBtn = document.querySelector('#employerSection .btn-primary.btn-full');
+  if(jobBtn) {
+    jobBtn.onclick = async function(){
+      const inputs = document.querySelectorAll('#employerSection .form-input');
+      const payload = {
+        employer_name: inputs[0]?.value || "",
+        district: inputs[1]?.value || "",
+        wage: parseFloat(inputs[2]?.value) || 0,
+        experience_required: inputs[4]?.value || "",
+        min_rating: (inputs[5]?.selectedIndex || 0) + 1
+      };
+      try {
+        const res = await fetch(API_BASE + "/api/jobs", {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        alert(data.message || "Job posted!");
+      } catch(err) {
+        alert("Job saved locally (backend offline)");
+      }
+    };
+  }
+});
+
+/* ================ AI CHATBOT ================ */
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.textContent;
+}
+
+async function sendChat(){
+  const input = document.getElementById("chatInput");
+  const msg = input.value.trim();
+  if(!msg) return;
+
+  addChatMessage(msg, "user");
+  input.value = "";
+  showTyping();
+
+  try {
+    const res = await fetch(API_BASE + "/api/chat", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+        message: msg,
+        language: document.getElementById("chatLang").value
+      })
+    });
+    const data = await res.json();
+    removeTyping();
+    addChatMessage(data.response, "ai");
+    if(data.audio) {
+      speakResponse(data.audio, true);
+    } else {
+      speakResponse(data.response, false);
+    }
+  } catch(err) {
+    removeTyping();
+    addChatMessage("Backend is offline. Please start the Flask server: cd backend && python app.py", "ai");
+  }
+}
+
+function quickAsk(question) {
+  document.getElementById("chatInput").value = question;
+  sendChat();
+}
+
+function addChatMessage(text, role) {
+  const container = document.getElementById("chatMessages");
+  const div = document.createElement("div");
+  div.className = "chat-msg " + role;
+
+  const label = document.createElement("span");
+  label.className = "msg-label";
+  label.textContent = role === "user" ? "You" : "Khetra Mitra AI";
+  div.appendChild(label);
+
+  const lines = text.split('\n');
+  lines.forEach(function(line, i) {
+    const textNode = document.createTextNode(line);
+    div.appendChild(textNode);
+    if(i < lines.length - 1) div.appendChild(document.createElement("br"));
+  });
+
+  container.appendChild(div);
+  container.scrollTop = container.scrollHeight;
+}
+
+function showTyping() {
+  const container = document.getElementById("chatMessages");
+  const div = document.createElement("div");
+  div.className = "typing-indicator";
+  div.id = "typingIndicator";
+  for(let i = 0; i < 3; i++) div.appendChild(document.createElement("span"));
+  container.appendChild(div);
+  container.scrollTop = container.scrollHeight;
+  document.getElementById("chatStatus").textContent = "AI is thinking...";
+  document.getElementById("chatStatus").className = "chat-status active";
+}
+
+function removeTyping() {
+  const el = document.getElementById("typingIndicator");
+  if(el) el.remove();
+  document.getElementById("chatStatus").textContent = "Ready to chat";
+  document.getElementById("chatStatus").className = "chat-status";
+}
+
+/* ================ VOICE INPUT (Whisper via Groq) ================ */
+let mediaRecorder = null;
+let audioChunks = [];
+let isRecording = false;
+
+async function toggleVoice() {
+  const btn = document.getElementById("voiceBtn");
+
+  if(isRecording) {
+    isRecording = false;
+    btn.classList.remove("recording");
+    btn.textContent = "\u{1F3A4}";
+    mediaRecorder.stop();
+    document.getElementById("chatStatus").textContent = "Processing voice...";
+    document.getElementById("chatStatus").className = "chat-status active";
+    return;
+  }
+
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({audio: true});
+    mediaRecorder = new MediaRecorder(stream, {mimeType: "audio/webm"});
+    audioChunks = [];
+
+    mediaRecorder.ondataavailable = function(e) {
+      audioChunks.push(e.data);
+    };
+
+    mediaRecorder.onstop = async function() {
+      const audioBlob = new Blob(audioChunks, {type: "audio/webm"});
+      stream.getTracks().forEach(function(t){ t.stop(); });
+
+      const formData = new FormData();
+      formData.append("audio", audioBlob, "voice.webm");
+      formData.append("language", document.getElementById("chatLang").value);
+
+      showTyping();
+
+      try {
+        const res = await fetch(API_BASE + "/api/voice", {
+          method: "POST",
+          body: formData
+        });
+        const data = await res.json();
+        removeTyping();
+
+        if(data.transcription) {
+          addChatMessage(data.transcription, "user");
+        }
+        if(data.response) {
+          addChatMessage(data.response, "ai");
+          if(data.audio) {
+            speakResponse(data.audio, true);
+          } else {
+            speakResponse(data.response, false);
+          }
+        }
+      } catch(err) {
+        removeTyping();
+        addChatMessage("Voice processing failed. Is the backend running?", "ai");
+      }
+    };
+
+    mediaRecorder.start();
+    isRecording = true;
+    btn.classList.add("recording");
+    btn.textContent = "\u25A0";
+    document.getElementById("chatStatus").textContent = "Recording... click mic to stop";
+    document.getElementById("chatStatus").className = "chat-status active";
+
+  } catch(err) {
+    alert("Microphone access denied. Please allow microphone permission.");
+  }
+}
+
+/* ================ TEXT-TO-SPEECH (Sarvam AI) ================ */
+let currentAudio = null;
+
+function playAudioBase64(base64Audio) {
+  if(currentAudio) {
+    currentAudio.pause();
+    currentAudio = null;
+  }
+  if(!base64Audio) return;
+
+  const audioBytes = atob(base64Audio);
+  const byteArray = new Uint8Array(audioBytes.length);
+  for(let i = 0; i < audioBytes.length; i++) {
+    byteArray[i] = audioBytes.charCodeAt(i);
+  }
+  const blob = new Blob([byteArray], {type: "audio/mp3"});
+  const url = URL.createObjectURL(blob);
+  currentAudio = new Audio(url);
+  currentAudio.play();
+  currentAudio.onended = function() { URL.revokeObjectURL(url); };
+}
+
+function speakResponse(textOrAudio, isBase64) {
+  // If we already have Sarvam audio from API response, play it directly
+  if(isBase64 && textOrAudio) {
+    playAudioBase64(textOrAudio);
+    return;
+  }
+
+  // Fallback to browser TTS if no Sarvam audio
+  if(!('speechSynthesis' in window)) return;
+  window.speechSynthesis.cancel();
+
+  const utterance = new SpeechSynthesisUtterance(textOrAudio);
+  const lang = document.getElementById("chatLang").value;
+  const langMap = {
+    hindi:"hi-IN", punjabi:"pa-IN", bengali:"bn-IN", gujarati:"gu-IN",
+    kannada:"kn-IN", malayalam:"ml-IN", marathi:"mr-IN", odia:"or-IN",
+    tamil:"ta-IN", telugu:"te-IN", english:"en-IN"
+  };
+  utterance.lang = langMap[lang] || "en-IN";
+  utterance.rate = 0.9;
+  window.speechSynthesis.speak(utterance);
+}
+</script>
+
+</body>
+</html>

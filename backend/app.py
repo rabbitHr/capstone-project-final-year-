@@ -37,7 +37,7 @@ with app.app_context():
     db.create_all()
 
 # ── Serve frontend ──────────────────────────────────────────────
-FRONTEND_DIR = os.path.join(os.path.dirname(__file__), "..")
+FRONTEND_DIR = os.path.join(os.path.dirname(__file__), "static")
 
 
 @app.route("/")

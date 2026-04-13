@@ -87,7 +87,7 @@ Built as a capstone project for LPU CAP-463.
 
 ### 1. Client Layer (Frontend)
 
-The frontend is a **single-page HTML application** (`capstone.html`) that runs entirely in the browser. It uses vanilla HTML, CSS, and JavaScript with the Fetch API for making REST calls to the backend. The Web Audio API is used to capture voice input from the user's microphone. No frontend framework is used -- everything is self-contained in one file.
+The frontend is a **single-page HTML application** (`backend/static/capstone.html`) that runs entirely in the browser. It uses vanilla HTML, CSS, and JavaScript with the Fetch API for making REST calls to the backend. The Web Audio API is used to capture voice input from the user's microphone. No frontend framework is used -- everything is self-contained in one file. The HTML file is placed inside `backend/static/` so Flask can serve it directly, making the project deployment-ready.
 
 ### 2. Flask Backend (app.py)
 
@@ -189,8 +189,9 @@ The application will be available at `http://localhost:5000`.
 
 ```
 capstone-project/
-├── capstone.html              # Frontend (single-page application)
 ├── backend/
+│   ├── static/
+│   │   └── capstone.html      # Frontend (single-page application)
 │   ├── app.py                 # Flask server and API routes
 │   ├── ai_services.py         # AI integrations (Groq, Sarvam)
 │   ├── models.py              # SQLAlchemy database models
@@ -220,3 +221,47 @@ capstone-project/
 | POST | `/api/schemes` | Match government schemes |
 | POST | `/api/tts` | Convert text to speech |
 | GET | `/api/chat/history` | Get recent chat history |
+
+---
+
+## Deployment (Render)
+
+This project is configured for deployment on [Render](https://render.com). The frontend HTML lives inside `backend/static/` so Flask serves everything from a single directory.
+
+### Steps
+
+1. Push the code to a GitHub repository
+
+2. Go to [render.com](https://render.com) and sign in with GitHub
+
+3. Click **New > Web Service** and select your repository
+
+4. Configure the service:
+
+   | Setting | Value |
+   |---------|-------|
+   | **Root Directory** | `backend` |
+   | **Build Command** | `pip install -r requirements.txt` |
+   | **Start Command** | `gunicorn app:app` |
+
+5. Add environment variables in the Render dashboard:
+
+   | Variable | Description |
+   |----------|-------------|
+   | `GROQ_API_KEY` | Your Groq API key |
+   | `SARVAM_API_KEY` | Your Sarvam AI key (optional, for TTS) |
+   | `JWT_SECRET_KEY` | A random secret string for JWT signing |
+
+6. Click **Deploy**
+
+### Note
+
+Add `gunicorn` to your dependencies before deploying:
+
+```bash
+cd backend
+pip install gunicorn
+pip freeze > requirements.txt
+```
+
+SQLite works for demo purposes. Data will reset on each redeploy since Render's free tier uses an ephemeral filesystem. For persistent data, consider upgrading to a PostgreSQL database.
